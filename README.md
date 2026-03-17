@@ -20,7 +20,7 @@
 - `web_my.py`：网页前端服务，提供界面访问
 - `index.html`：前端界面
 - `start.bat`：一键启动脚本
-
+（要下载elasticsearch解压后放在同一个文件夹）
 ## 使用方法
 1. 确保 Elasticsearch 已启动
 2. 双击 `start.bat` 启动服务
@@ -39,3 +39,7 @@
 ## 版本说明
 当前版本：**最终稳定版**
 已完成功能调试、BUG修复、代码备份，可长期稳定使用。
+
+elasticsearch使用版本：9.3.1
+Downloads: https://elastic.co/downloads/elasticsearch
+Release notes: https://www.elastic.co/docs/release-notes/elasticsearch#elasticsearch-9.3.1-release-notes
