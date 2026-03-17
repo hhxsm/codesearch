@@ -1,0 +1,354 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>文件检索系统 - 企业版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background: #EDF0F5;
+        }
+
+        .header {
+            background: #2A4D6E;
+            color: white;
+            padding: 16px 30px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+            .card h2 {
+                font-size: 16px;
+                color: #333;
+                margin-bottom: 18px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid #eee;
+            }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .btn-blue {
+            background: #3B7AAC;
+            color: white;
+        }
+
+        .btn-red {
+            background: #D9534F;
+            color: white;
+        }
+
+        .btn-gray {
+            background: #6C757D;
+            color: white;
+        }
+
+        .btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .type-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+            .type-group label {
+                background: #F1F3F5;
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-size: 13px;
+                cursor: pointer;
+            }
+
+            .type-group input {
+                margin-right: 6px;
+                width: auto;
+            }
+
+        .status {
+            color: #28a745;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .file-item {
+            font-weight: bold;
+            color: #2A4D6E;
+            margin: 12px 0 6px;
+        }
+
+        .line-item {
+            padding-left: 22px;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            background: #FFE982;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .mini {
+            background: #6c757d;
+            color: white;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 6px;
+        }
+
+        .folder-item {
+            padding: 6px 10px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .folder-list {
+            margin-bottom: 12px;
+        }
+
+        .del-btn {
+            color: #f53f3f;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">📁 企业级本地文件检索系统</div>
+    <div class="container">
+        <div class="card">
+            <h2>选择文件夹（可多选）</h2>
+            <button class="btn btn-blue" onclick="selectFolder()">➕ 添加文件夹</button>
+            <div class="folder-list" id="folderList"></div>
+
+            <h2>选择文件类型</h2>
+            <div class="type-group">
+                <label><input type="checkbox" onchange="toggleAll()"> 全选</label>
+                <label><input type="checkbox" class="ft" value=".py"> PY</label>
+                <label><input type="checkbox" class="ft" value=".java"> JAVA</label>
+                <label><input type="checkbox" class="ft" value=".js"> JS</label>
+                <label><input type="checkbox" class="ft" value=".ts"> TS</label>
+                <label><input type="checkbox" class="ft" value=".cs"> CS</label>
+                <label><input type="checkbox" class="ft" value=".php"> PHP</label>
+                <label><input type="checkbox" class="ft" value=".go"> GO</label>
+                <label><input type="checkbox" class="ft" value=".rs"> RUST</label>
+                <label><input type="checkbox" class="ft" value=".rb"> RUBY</label>
+                <label><input type="checkbox" class="ft" value=".c"> C</label>
+                <label><input type="checkbox" class="ft" value=".cpp"> CPP</label>
+                <label><input type="checkbox" class="ft" value=".h"> H</label>
+                <label><input type="checkbox" class="ft" value=".sql"> SQL</label>
+                <label><input type="checkbox" class="ft" value=".json"> JSON</label>
+                <label><input type="checkbox" class="ft" value=".xml"> XML</label>
+                <label><input type="checkbox" class="ft" value=".html"> HTML</label>
+                <label><input type="checkbox" class="ft" value=".css"> CSS</label>
+                <label><input type="checkbox" class="ft" value=".md"> MD</label>
+                <label><input type="checkbox" class="ft" value=".txt"> TXT</label>
+                <label><input type="checkbox" class="ft" value=".log"> LOG</label>
+                <label><input type="checkbox" class="ft" value=".ini"> INI</label>
+                <label><input type="checkbox" class="ft" value=".conf"> CONF</label>
+                <label><input type="checkbox" class="ft" value=".yaml"> YAML</label>
+                <label><input type="checkbox" class="ft" value=".yml"> YML</label>
+            </div>
+
+            <button class="btn btn-blue" id="btnStart" onclick="startIndex()">建立索引</button>
+            <button class="btn btn-red" onclick="stopIndex()">停止索引</button>
+            <button class="btn btn-gray" onclick="clearResult()">清空结果</button>
+            <div class="status" id="status"></div>
+        </div>
+
+        <div class="card">
+            <h2>搜索</h2>
+            <input id="kw" placeholder="输入关键词" onkeydown="if(event.keyCode===13)search()">
+            <button class="btn btn-blue" onclick="search()">搜索</button>
+        </div>
+
+        <div class="card">
+            <h2>结果</h2>
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <script>
+        let timer = null
+        let isIndexing = false
+        let folderList = []
+
+        function selectFolder() {
+            fetch("http://127.0.0.1:5001/select_folder")
+                .then(r => r.json())
+                .then(d => {
+                    let path = d.folder;
+                    if (!path) return;
+                    if (folderList.includes(path)) {
+                        alert("已添加此文件夹");
+                        return;
+                    }
+                    folderList.push(path);
+                    renderFolderList();
+                })
+        }
+
+        function renderFolderList() {
+            let html = "";
+            folderList.forEach((f, i) => {
+                html += `
+                <div class="folder-item">
+                    ${f}
+                    <span class="del-btn" onclick="removeFolder(${i})">✕</span>
+                </div>`;
+            });
+            document.getElementById("folderList").innerHTML = html;
+        }
+
+        function removeFolder(index) {
+            folderList.splice(index, 1);
+            renderFolderList();
+        }
+
+        function toggleAll() {
+            let v = document.querySelector(".type-group input[type=checkbox]").checked;
+            document.querySelectorAll(".ft").forEach(i => i.checked = !v);
+        }
+
+        function startIndex() {
+            if (isIndexing) return;
+            if (folderList.length === 0) {
+                alert("请选择文件夹");
+                return;
+            }
+            let ts = [];
+            document.querySelectorAll(".ft:checked").forEach(i => ts.push(i.value));
+            if (ts.length === 0) {
+                alert("请选择文件类型");
+                return;
+            }
+            isIndexing = true;
+            document.getElementById("btnStart").disabled = true;
+
+            fetch("http://127.0.0.1:5001/index_folders", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ folders: folderList, types: ts })
+            });
+            watch();
+        }
+
+        function stopIndex() {
+            fetch("http://127.0.0.1:5001/stop_index", { method: "POST" });
+            document.getElementById("status").innerHTML = "建立索引已终止";
+            isIndexing = false;
+            document.getElementById("btnStart").disabled = false;
+            clearInterval(timer);
+        }
+
+        function watch() {
+            clearInterval(timer);
+            timer = setInterval(() => {
+                fetch("http://127.0.0.1:5001/index_status")
+                    .then(r => r.json())
+                    .then(d => {
+                        if (d.running) {
+                            document.getElementById("status").innerHTML = `索引中：${d.count} 行 | ${d.current}`;
+                        } else {
+                            document.getElementById("status").innerHTML = d.current;
+                            isIndexing = false;
+                            document.getElementById("btnStart").disabled = false;
+                            clearInterval(timer);
+                        }
+                    });
+            }, 300);
+        }
+
+        function search() {
+            let k = document.getElementById("kw").value;
+            if (!k) { alert("请输入关键词"); return; }
+            fetch("http://127.0.0.1:5001/search", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ keyword: k })
+            }).then(r => r.json()).then(d => {
+                let html = "";
+                for (let f in d) {
+                    let file = encodeURIComponent(f);
+                    html += `<div class="file-item">${f}
+<button class='mini' onclick="openFile('${file}')">打开</button>
+<button class='mini' onclick="openDir('${file}')">目录</button>
+</div>`;
+                    d[f].forEach(i => {
+                        html += `<div class='line-item'>${i.line}：${i.content.replaceAll(k, `<span class=highlight>${k}</span>`)}</div>`;
+                    });
+                }
+                document.getElementById("result").innerHTML = html || "无结果";
+            });
+        }
+
+        function clearResult() {
+            document.getElementById("result").innerHTML = "";
+        }
+
+        function openFile(file) {
+            fetch("http://127.0.0.1:5001/open_file", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ file: decodeURIComponent(file) })
+            });
+        }
+
+        function openDir(file) {
+            fetch("http://127.0.0.1:5001/open_dir", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ file: decodeURIComponent(file) })
+            });
+        }
+    </script>
+</body>
+</html>
